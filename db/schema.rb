@@ -14,32 +14,37 @@ ActiveRecord::Schema.define(version: 20181111115024) do
 
   create_table "populars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "tweet_id"
+    t.bigint "user_id"
     t.integer "retweet_count", null: false
     t.integer "favorite_count", null: false
-    t.datetime "search_date", null: false
+    t.datetime "search_date"
+    t.float "popular", limit: 24, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["tweet_id"], name: "index_populars_on_tweet_id"
+    t.index ["user_id"], name: "index_populars_on_user_id"
   end
 
   create_table "tweets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "tw_tweet_id", null: false
+    t.string "tw_tweet_id", null: false
     t.bigint "user_id"
-    t.string "text", null: false
-    t.string "urls", null: false
-    t.datetime "tweet_at", null: false
+    t.string "text"
+    t.string "urls"
+    t.datetime "tweet_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["tw_tweet_id"], name: "index_tweets_on_tw_tweet_id", unique: true
     t.index ["user_id"], name: "index_tweets_on_user_id"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "tw_user_id", null: false
-    t.string "name", null: false
-    t.integer "followers_count", null: false
-    t.integer "statuses_count", null: false
+    t.string "tw_user_id", null: false
+    t.string "name"
+    t.integer "followers_count", default: 0
+    t.integer "statuses_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["tw_user_id"], name: "index_users_on_tw_user_id", unique: true
   end
 
 end

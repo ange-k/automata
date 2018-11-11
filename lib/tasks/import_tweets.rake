@@ -8,22 +8,43 @@ namespace :import_tweets do
   task exec: :environment do
     client_init
     options = {
-        count: 1,
-        include_rts: false
+      count: 200,
+      include_rts: false
     }
     @client.home_timeline(options).each do |tweet|
-      p tweet.user.id              # twitter id
-      p tweet.user.name            # user name
-      p tweet.user.followers_count # フォロワー数
-      p tweet.user.statuses_count  # 発信数
-      p tweet.id                   # tweet id
-      p tweet.text                 # tweet
-      p tweet.retweet_count        # リツイート数
-      p tweet.favorite_count       # お気に入り数
-      tweet.urls.each do |entity|
-        p entity.url.to_s          # url
-      end
-      p tweet.created_at           # 発言日
+      user = User.find_or_create_by(
+        tw_user_id: tweet.user.id.to_s
+      )
+      user.update(
+        name: tweet.user.name,
+        followers_count: tweet.user.followers_count,
+        statuses_count: tweet.user.statuses_count
+      )
+      user.save
+
+      tw = Tweet.find_or_create_by(
+        tw_tweet_id: tweet.id.to_s,
+        user_id: user.id
+      )
+      tw.update(
+        text: tweet.text,
+        urls: tweet.urls.map(&:url).map(&:to_s).join(','),
+        tweet_at: tweet.created_at
+      )
+      tw.save
+
+      popular = Popular.find_or_create_by(
+        retweet_count: tweet.retweet_count,
+        user_id: user.id,
+        tweet_id: tw.id,
+        favorite_count: tweet.favorite_count,
+        popular: ((tweet.retweet_count / Math.sqrt(user.followers_count)) +
+            (tweet.favorite_count / Math.sqrt(user.followers_count))) * 100
+      )
+      popular.update(
+        search_date: DateTime.now
+      )
+      popular.save
     end
   end
 

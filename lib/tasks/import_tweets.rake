@@ -26,6 +26,9 @@ namespace :import_tweets do
         tw_tweet_id: tweet.id.to_s,
         user_id: user.id
       )
+      unless tw.text
+        logger.info "new tweet:#{tw.tw_tweet_id}"
+      end
       tw.update(
         text: tweet.text,
         urls: tweet.urls.map(&:url).map(&:to_s).join(','),

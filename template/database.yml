@@ -9,12 +9,12 @@ default: &default
 
 development:
   <<: *default
-  database: app_development
+  database: automata_development
 
 test:
   <<: *default
-  database: app_test
+  database: automata_test
 
 production:
   <<: *default
-  database: app_production
+  database: automata_production

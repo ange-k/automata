@@ -9,7 +9,11 @@
         %th
           id
         %th
+          popular
+        %th
           text
+        %th
+          created_at
         %th
           urls
         %th
@@ -18,16 +22,23 @@
       - @tweet.each_with_index do |tw, index|
         %tr
           %td
-            = index
+            = index + 1
           %td
-            = tw.id
+            %a{ href: tw.link, target: '_blank' }
+              = tw.id
           %td
-            = tw.text
+            = tw.popular.last.popular
+          %td
+            - tw.text.split(/\R/).each do |s|
+              = s
+              %br
+          %td
+            = tw.tweet_at.strftime("%Y-%m-%d %H:%M:%S")
           %td
             %ul
               - tw.urls.split(',').each do |url|
                 %li
-                  %a{ href: url }
+                  %a{ href: url, target: '_blank' }
                     = url
           %td
-            ぼたん
+            = ぼたん

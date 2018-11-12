@@ -5,7 +5,7 @@ class ChangeColumnPopular < ActiveRecord::Migration[5.1]
       t.timestamps
     end
     add_index :categories, :name, unique: true
-    add_column :populars, :category_id, :integer, :null =>false
+    add_column :populars, :category_id, :integer, :null => true
     add_index :populars,  :category_id
   end
 end

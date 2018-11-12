@@ -1,5 +1,5 @@
 class ToppagesController < ApplicationController
   def index
-    @tweet = Tweet.all
+    @tweet = Tweet.includes(:popular).order("populars.popular desc")
   end
 end

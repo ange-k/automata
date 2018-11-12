@@ -1,0 +1,33 @@
+.regist-category-area
+
+.tweets-area
+  %table.table
+    %thead
+      %tr
+        %th
+          index
+        %th
+          id
+        %th
+          text
+        %th
+          urls
+        %th
+          category
+    %tbody
+      - @tweet.each_with_index do |tw, index|
+        %tr
+          %td
+            = index
+          %td
+            = tw.id
+          %td
+            = tw.text
+          %td
+            %ul
+              - tw.urls.split(',').each do |url|
+                %li
+                  %a{ href: url }
+                    = url
+          %td
+            ぼたん

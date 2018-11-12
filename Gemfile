@@ -24,6 +24,10 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bootstrap', '~> 4.1.1'
 # gem 'jquery-rails'
 
+# automata
+gem 'twitter'
+gem 'dotenv-rails'
+
 group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'

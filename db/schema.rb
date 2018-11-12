@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181111115024) do
+ActiveRecord::Schema.define(version: 20181112151157) do
+
+  create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
+  end
 
   create_table "populars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "tweet_id"
@@ -21,6 +28,8 @@ ActiveRecord::Schema.define(version: 20181111115024) do
     t.float "popular", limit: 24, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "category_id"
+    t.index ["category_id"], name: "index_populars_on_category_id"
     t.index ["tweet_id"], name: "index_populars_on_tweet_id"
     t.index ["user_id"], name: "index_populars_on_user_id"
   end
@@ -29,6 +38,7 @@ ActiveRecord::Schema.define(version: 20181111115024) do
     t.string "tw_tweet_id", null: false
     t.bigint "user_id"
     t.string "text"
+    t.string "link"
     t.string "urls"
     t.datetime "tweet_at"
     t.datetime "created_at", null: false
@@ -40,6 +50,7 @@ ActiveRecord::Schema.define(version: 20181111115024) do
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "tw_user_id", null: false
     t.string "name"
+    t.string "screen_name"
     t.integer "followers_count", default: 0
     t.integer "statuses_count", default: 0
     t.datetime "created_at", null: false

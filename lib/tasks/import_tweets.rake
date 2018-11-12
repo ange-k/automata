@@ -18,7 +18,8 @@ namespace :import_tweets do
       user.update(
         name: tweet.user.name,
         followers_count: tweet.user.followers_count,
-        statuses_count: tweet.user.statuses_count
+        statuses_count: tweet.user.statuses_count,
+        screen_name: tweet.user.screen_name
       )
       user.save
 
@@ -32,7 +33,8 @@ namespace :import_tweets do
       tw.update(
         text: tweet.text,
         urls: tweet.urls.map(&:url).map(&:to_s).join(','),
-        tweet_at: tweet.created_at
+        tweet_at: tweet.created_at - 17.hour,
+        link: "https://twitter.com/#{user.screen_name}/status/#{tw.tw_tweet_id}"
       )
       tw.save
 
@@ -45,7 +47,7 @@ namespace :import_tweets do
             (tweet.favorite_count / Math.sqrt(user.followers_count))) * 100
       )
       popular.update(
-        search_date: DateTime.now
+        search_date: Time.zone.now
       )
       popular.save
     end

@@ -1,3 +1,4 @@
 class Tweet < ApplicationRecord
-  has_many :popular
+  has_many   :popular
+  belongs_to :user
 end

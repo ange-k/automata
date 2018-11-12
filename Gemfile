@@ -21,8 +21,8 @@ gem 'jbuilder', '~> 2.5'
 # gem 'rails_admin'
 
 # bootstrap
-# gem 'bootstrap', '~> 4.1.1'
-# gem 'jquery-rails'
+gem 'bootstrap', '~> 4.1.1'
+gem 'jquery-rails'
 
 # automata
 gem 'twitter'

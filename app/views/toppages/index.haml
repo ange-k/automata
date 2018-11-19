@@ -29,6 +29,7 @@
           %td
             = tw.popular.last.popular
           %td
+            - # 改行コードのスプリット
             - tw.text.split(/\R/).each do |s|
               = s
               %br
@@ -41,4 +42,4 @@
                   %a{ href: url, target: '_blank' }
                     = url
           %td
-            = ぼたん
+            ぼたん

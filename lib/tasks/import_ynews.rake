@@ -52,7 +52,7 @@ namespace :import_ynews do
   end
 
   def import_news(category, path)
-    page_count = 2
+    page_count = 500
     yURL = "https://news.yahoo.co.jp/list/?c=#{category}"
 
     Capybara.register_driver :poltergeist do |app|
@@ -70,6 +70,7 @@ namespace :import_ynews do
 
     (1..page_count).each do |page|
       url = "#{yURL}&p=#{page}"
+      logger.info url
       scraping(url, path, session, category)
     end
 
@@ -84,16 +85,17 @@ namespace :import_ynews do
     FileUtils.mkdir_p(root_dir)
 
     categories = [
-        'domestic',     # 国内
-#        'world',        # 海外
-#        'economy',      # 経済
-#        'entertainment',# エンタメ
-#        'sports',       # スポーツ
-#        'computer',     # IT
-#        'science',      # 科学
-        'local'         # 地域
+        'domestic',      # 国内
+        'world',         # 海外
+        'economy',       # 経済
+        'entertainment', # エンタメ
+        'sports',        # スポーツ
+        'computer',      # IT
+        'science',       # 科学
+        'local'          # 地域
     ]
     categories.each do |category|
+      logger.info "処理開始->#{category}"
       make_path = "#{root_dir}/#{category}"
       FileUtils.mkdir_p(make_path)
       import_news(category, make_path)

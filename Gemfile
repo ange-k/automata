@@ -31,6 +31,7 @@ gem 'whenever', require: false
 gem 'nokogiri'
 gem 'poltergeist'
 gem 'capybara'
+gem 'natto'
 
 group :development, :test do
   gem 'pry-rails'

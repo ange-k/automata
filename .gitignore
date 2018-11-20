@@ -3,7 +3,7 @@
 !/log/.keep
 !/tmp/.keep
 /public/system
-
+out/**/*.txt
 .env
 .env.dev
 

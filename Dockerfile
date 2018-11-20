@@ -9,6 +9,9 @@ RUN apt-get update -qq && \
   libfontconfig1 && \
   rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update -qq && \
+ apt-get install libmecab2 libmecab-dev mecab mecab-ipadic mecab-ipadic-utf8 mecab-utils
+
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION 8.6.0
 

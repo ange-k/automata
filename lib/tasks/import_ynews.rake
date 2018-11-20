@@ -4,7 +4,7 @@ namespace :import_ynews do
     Rails.logger
   end
 
-  def scraping(url, path, session)
+  def scraping(url, path, session, category)
     begin
       session.visit url
       anker_list = []
@@ -19,6 +19,8 @@ namespace :import_ynews do
         end
       end
 
+      # スレッド処理のほうがいいかも
+      # 個別のニュース記事にアクセスして見出しを取る
       news_header = []
       anker_list.each do |anker|
         begin
@@ -29,6 +31,18 @@ namespace :import_ynews do
           end
         rescue => err
           logger.error err
+        end
+      end
+
+      # 個別のニュースの見出しをMecabにかける
+      mecab = Natto::MeCab.new
+      news_header.each do |header|
+        meishi = []
+        mecab.parse(header.tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z')) do |nat|
+          meishi.push(nat.surface) if nat.feature.split(',').first == '名詞'
+        end
+        File.open("#{path}/ynews.txt", 'a') do |f|
+          f.puts("__label__#{category} , #{meishi.join(' ')}")
         end
       end
 
@@ -56,7 +70,7 @@ namespace :import_ynews do
 
     (1..page_count).each do |page|
       url = "#{yURL}&p=#{page}"
-      scraping(url, path, session)
+      scraping(url, path, session, category)
     end
 
   end

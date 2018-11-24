@@ -8,26 +8,28 @@ class ItmediaScrapingService < ScrapingService
 
   def scraping
     session = capybara_create
-    results = []
     @calendar.each do |date|
       url = "#{@url}/#{date}"
       ankers = index_scraping(session, url)
-      results.push pages_scraping(session, ankers) if ankers.present?
+      next if ankers.blank?
+      result = pages_scraping(session, ankers)
+      super(result, @file_path, ScrapingerFactory::CATEGORY_IT_NEWS)
     end
-
-    super(results, @file_path, ScrapingerFactory::CATEGORY_IT_NEWS)
   end
 
   private
 
   def index_scraping(session, url)
+    require 'objspace'
+
     ankers = []
     p url if Rails.env == 'development'
+    logger.info "sysmem: #{ObjectSpace.memsize_of_all}"
 
     session.visit url
     unless session.status_code == 200
       p "status=#{session.status_code}"
-      logger.warn 'HttpStatusエラー'
+      logger.warn "HttpStatusError=#{session.status_code}"
       return nil
     end
     news_list = session.find('.colBoxBacknumber').all('a')
@@ -45,7 +47,7 @@ class ItmediaScrapingService < ScrapingService
 
       unless session.status_code == 200
         p "status=#{session.status_code}"
-        logger.warn 'HttpStatusエラー'
+        logger.warn "HttpStatusError=#{session.status_code}"
         next
       end
 
@@ -56,6 +58,11 @@ class ItmediaScrapingService < ScrapingService
       end
       h2 = container.find('h2')
       text = h2.text if h2.present?
+
+      if h2.text.blank?
+        logger.warn "h2 text blank. url=#{anker}"
+        next
+      end
       result.push text
     end
     result

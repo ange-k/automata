@@ -13,7 +13,7 @@ class ScrapingService
       Capybara::Poltergeist::Driver.new(
           app,
           js_errors: false,
-          timeout: 5000,
+          timeout: 10, # seconds
           phantomjs_options: %w(--load-images=no --ignore-ssl-errors=yes --ssl-protocol=any)
       )
     end
@@ -22,18 +22,17 @@ class ScrapingService
     session
   end
 
-  def scraping(results, file_path, category)
-    mecab = Natto::MeCab.new
+  def scraping(result, file_path, category)
+    mecab = Natto::MeCab.new('-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd')
 
-    results.each do |texts|
-      texts.each do |text|
-        meishi = []
-        mecab.parse(text.tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z')) do |nat|
-          meishi.push(nat.surface) if nat.feature.split(',').first == '名詞'
-        end
-        File.open("#{file_path}/#{category}.txt", 'a') do |f|
-          f.puts("__label__#{category} , #{meishi.join(' ')}")
-        end
+    result.each do |text|
+      meishi = []
+      next if text.blank?
+      mecab.parse(text.tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z')) do |nat|
+        meishi.push(nat.surface) if nat.feature.split(',').first == '名詞'
+      end
+      File.open("#{file_path}/#{category}.txt", 'a') do |f|
+        f.puts("__label__#{category} , #{meishi.join(' ')}")
       end
     end
   end

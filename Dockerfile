@@ -9,9 +9,6 @@ RUN apt-get update -qq && \
   libfontconfig1 && \
   rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update -qq && \
- apt-get install libmecab2 libmecab-dev mecab mecab-ipadic mecab-ipadic-utf8 mecab-utils
-
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION 8.6.0
 
@@ -45,6 +42,26 @@ RUN wget -O /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2 https://bitbucket.org/ariy
   && bzip2 -dc /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2 | tar xvf - \
   && mv phantomjs-2.1.1-linux-x86_64/bin/phantomjs /bin \
   && chmod +x /bin/phantomjs
+
+# mecab
+WORKDIR /opt
+RUN git clone https://github.com/taku910/mecab.git
+WORKDIR /opt/mecab/mecab
+RUN ./configure  --enable-utf8-only \
+  && make \
+  && make check \
+  && make install \
+  && ldconfig
+
+WORKDIR /opt/mecab/mecab-ipadic
+RUN ./configure --with-charset=utf8 \
+  && make \
+  &&make install
+
+WORKDIR /opt
+RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git
+WORKDIR /opt/mecab-ipadic-neologd
+RUN ./bin/install-mecab-ipadic-neologd -n -y
 
 RUN mkdir /app
 

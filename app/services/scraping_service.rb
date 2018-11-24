@@ -17,7 +17,7 @@ class ScrapingService
           phantomjs_options: %w(--load-images=no --ignore-ssl-errors=yes --ssl-protocol=any)
       )
     end
-    Capybara.default_max_wait_time = 20
+    Capybara.default_max_wait_time = 10
     session = Capybara::Session.new(:poltergeist)
     session
   end

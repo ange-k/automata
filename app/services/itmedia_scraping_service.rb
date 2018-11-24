@@ -7,13 +7,14 @@ class ItmediaScrapingService < ScrapingService
   end
 
   def scraping
-    session = capybara_create
     @calendar.each do |date|
       url = "#{@url}/#{date}"
+      session = capybara_create
       ankers = index_scraping(session, url)
       next if ankers.blank?
       result = pages_scraping(session, ankers)
       super(result, @file_path, ScrapingerFactory::CATEGORY_IT_NEWS)
+      session.driver.quit #phantomJsのメモリ増加を抑えるため
     end
   end
 
@@ -26,7 +27,13 @@ class ItmediaScrapingService < ScrapingService
     p url if Rails.env == 'development'
     logger.info "sysmem: #{ObjectSpace.memsize_of_all}"
 
-    session.visit url
+    begin
+      session.visit url
+    rescue => e
+      logger.error e
+      return nil
+    end
+
     unless session.status_code == 200
       p "status=#{session.status_code}"
       logger.warn "HttpStatusError=#{session.status_code}"
@@ -34,7 +41,12 @@ class ItmediaScrapingService < ScrapingService
     end
     news_list = session.find('.colBoxBacknumber').all('a')
     news_list.each do |node|
-      ankers.push node[:href]
+      begin
+        ankers.push node[:href]
+      rescue => e
+        logger.error e
+        next
+      end
     end
     ankers
   end
@@ -43,7 +55,13 @@ class ItmediaScrapingService < ScrapingService
     result = []
 
     ankers.each do |anker|
-      session.visit anker
+
+      begin
+        session.visit anker
+      rescue => e
+        logger.error e
+        next
+      end
 
       unless session.status_code == 200
         p "status=#{session.status_code}"

@@ -1,19 +1,21 @@
-class ItmediaScrapingService < ScrapingService
-  def initialize(url, file_path, calendar)
+class LivedoorScrapingService < ScrapingService
+  def initialize(url, file_path, category, limit)
     @url = url
     @file_path = file_path
-    @calendar = calendar
+    @category = category
+    @limit = limit
     file_init(file_path)
   end
 
   def scraping
-    @calendar.each do |date|
-      url = "#{@url}/#{date}"
+    (1..@limit).each do |page|
+      url = "#{@url}?p=#{page}"
+
       session = capybara_create
       ankers = index_scraping(session, url)
       next if ankers.blank?
       result = pages_scraping(session, ankers)
-      super(result, @file_path, ScrapingerFactory::CATEGORY_IT_NEWS)
+      super(result, @file_path, @category)
       session.driver.quit #phantomJsのメモリ増加を抑えるため
     end
   end
@@ -36,7 +38,7 @@ class ItmediaScrapingService < ScrapingService
       logger.warn "HttpStatusError=#{session.status_code}"
       return nil
     end
-    news_list = session.find('.colBoxBacknumber').all('a')
+    news_list = session.find('.articleList').all('a')
     news_list.each do |node|
       begin
         ankers.push node[:href]
@@ -66,16 +68,19 @@ class ItmediaScrapingService < ScrapingService
         next
       end
 
-      container = session.find_by_id('cmsAbstract')
+      container = session.find('.summaryList')
       if container.blank?
-        logger.error "NotFound h2 container. url = #{anker}"
+        logger.error "NotFound ul container. url = #{anker}"
         next
       end
-      h2 = container.find('h2')
-      text = h2.text if h2.present?
 
-      if h2.text.blank?
-        logger.warn "h2 text blank. url=#{anker}"
+      text = ''
+      container.all('li').each do |node|
+        text = "#{text}#{node.text}。"
+      end
+
+      if text.blank?
+        logger.warn "text blank. url=#{anker}"
         next
       end
       result.push text

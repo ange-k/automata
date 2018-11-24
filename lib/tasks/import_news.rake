@@ -1,5 +1,5 @@
-namespace :import_ynews do
-  desc 'Yahooから記事情報をインポートする'
+namespace :import_news do
+  desc '記事情報をインポートする'
   def logger
     Rails.logger
   end

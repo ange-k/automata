@@ -9,7 +9,7 @@ class LivedoorScrapingService < ScrapingService
 
   def scraping
     (1..@limit).each do |page|
-      url = "#{@url}?p=#{page}"
+      url = "#{@url}/?p=#{page}"
 
       session = capybara_create
       ankers = index_scraping(session, url)
@@ -67,16 +67,16 @@ class LivedoorScrapingService < ScrapingService
         logger.warn "HttpStatusError=#{session.status_code}"
         next
       end
-
-      container = session.find('.summaryList')
+      container = session.all('.summaryList')
       if container.blank?
-        logger.error "NotFound ul container. url = #{anker}"
-        next
-      end
-
-      text = ''
-      container.all('li').each do |node|
-        text = "#{text}#{node.text}。"
+        logger.info "概要なしパターン:#{anker}"
+        container = session.find('.articleBody')
+        text = container.text
+      else
+        text = ''
+        container.first.all('li').each do |node|
+          text = "#{text}#{node.text}。"
+        end
       end
 
       if text.blank?

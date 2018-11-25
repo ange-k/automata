@@ -70,7 +70,12 @@ class LivedoorScrapingService < ScrapingService
       container = session.all('.summaryList')
       if container.blank?
         logger.info "概要なしパターン:#{anker}"
-        container = session.find('.articleBody')
+        begin
+          container = session.find('.articleBody')
+        rescue => e
+          logger.error e
+          next
+        end
         text = container.text
       else
         text = ''

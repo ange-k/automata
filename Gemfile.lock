@@ -51,6 +51,15 @@ GEM
     buftok (0.2.0)
     builder (3.2.3)
     byebug (10.0.2)
+    capybara (3.9.0)
+      addressable
+      mini_mime (>= 0.1.3)
+      nokogiri (~> 1.8)
+      rack (>= 1.6.0)
+      rack-test (>= 0.6.3)
+      xpath (~> 3.1)
+    chronic (0.10.2)
+    cliver (0.3.2)
     coderay (1.1.2)
     concurrent-ruby (1.1.3)
     crass (1.0.4)
@@ -119,10 +128,16 @@ GEM
     multi_json (1.13.1)
     multipart-post (2.0.0)
     mysql2 (0.5.2)
+    natto (1.1.1)
+      ffi (>= 1.9.0)
     naught (1.1.0)
     nio4r (2.3.1)
     nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
+    poltergeist (1.18.1)
+      capybara (>= 2.1, < 4)
+      cliver (~> 0.3.1)
+      websocket-driver (>= 0.2.0)
     popper_js (1.14.3)
     pry (0.12.0)
       coderay (~> 1.1.0)
@@ -228,6 +243,10 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
+    whenever (0.10.0)
+      chronic (>= 0.6.3)
+    xpath (3.2.0)
+      nokogiri (~> 1.8)
     yard (0.9.16)
 
 PLATFORMS
@@ -235,6 +254,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap (~> 4.1.1)
+  capybara
   dotenv-rails
   erb2haml
   haml-rails
@@ -242,6 +262,9 @@ DEPENDENCIES
   jquery-rails
   listen (>= 3.0.5, < 3.2)
   mysql2 (>= 0.3.18, < 0.6.0)
+  natto
+  nokogiri
+  poltergeist
   pry-byebug
   pry-doc
   pry-rails
@@ -255,6 +278,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
+  whenever
 
 BUNDLED WITH
    1.16.4

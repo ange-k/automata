@@ -38,6 +38,31 @@ RUN wget https://github.com/progrium/entrykit/releases/download/v${ENTRYKIT_VERS
   && chmod +x /bin/entrykit \
   && entrykit --symlink
 
+RUN wget -O /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 \
+  && bzip2 -dc /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2 | tar xvf - \
+  && mv phantomjs-2.1.1-linux-x86_64/bin/phantomjs /bin \
+  && chmod +x /bin/phantomjs
+
+# mecab
+WORKDIR /opt
+RUN git clone https://github.com/taku910/mecab.git
+WORKDIR /opt/mecab/mecab
+RUN ./configure  --enable-utf8-only \
+  && make \
+  && make check \
+  && make install \
+  && ldconfig
+
+WORKDIR /opt/mecab/mecab-ipadic
+RUN ./configure --with-charset=utf8 \
+  && make \
+  &&make install
+
+WORKDIR /opt
+RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git
+WORKDIR /opt/mecab-ipadic-neologd
+RUN ./bin/install-mecab-ipadic-neologd -n -y
+
 RUN mkdir /app
 
 WORKDIR /app

@@ -7,6 +7,18 @@ class ScrapingerFactory
   CATEGORY_SPORTS_NEWS = 'sport'      # livedor-スポーツ
   CATEGORY_NET_NEWS = 'net'           # livedor-IT総合
 
+  def self.scraping_targets
+    return [
+        CATEGORY_IT_NEWS,
+        CATEGORY_LOCAL_NEWS,
+        CATEGORY_WORLD_NEWS,
+        CATEGORY_ECO_NEWS,
+        CATEGORY_ENT_NEWS,
+        CATEGORY_SPORTS_NEWS,
+        CATEGORY_NET_NEWS
+    ]
+  end
+
 
   def initialize(pattern, base_path)
     case(pattern)

@@ -6,6 +6,7 @@ class ScrapingerFactory
   CATEGORY_ENT_NEWS = 'entertainment' # livedor-エンタメ
   CATEGORY_SPORTS_NEWS = 'sport'      # livedor-スポーツ
   CATEGORY_NET_NEWS = 'net'           # livedor-IT総合
+  CATEGORY_NET_NEWS_GIGAZINE = 'giga' # gigazine-ネットニュース
 
   def self.scraping_targets
     return [
@@ -15,7 +16,8 @@ class ScrapingerFactory
         CATEGORY_ECO_NEWS,
         CATEGORY_ENT_NEWS,
         CATEGORY_SPORTS_NEWS,
-        CATEGORY_NET_NEWS
+        CATEGORY_NET_NEWS,
+        CATEGORY_NET_NEWS_GIGAZINE
     ]
   end
 
@@ -51,6 +53,10 @@ class ScrapingerFactory
       url = 'http://news.livedoor.com/topics/category/sports'
       filepath = "#{base_path}/ld_sports"
       @service = LivedoorScrapingService.new(url, filepath, pattern, 50)
+    when CATEGORY_NET_NEWS_GIGAZINE
+      url = 'https://gigazine.net/news/C37/P'
+      filepath = "#{base_path}/gigazine"
+      @service = GigazineScrapingService.new(url, filepath, CATEGORY_NET_NEWS, 5)
     end
   end
 

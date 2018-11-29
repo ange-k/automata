@@ -5,6 +5,8 @@ ENV LANG C.UTF-8
 RUN apt-get update -qq && \
  apt-get install -y --no-install-recommends \
   build-essential \
+  gcc \
+  zlib1g-dev \
   libpq-dev \
   libfontconfig1 && \
   rm -rf /var/lib/apt/lists/*
@@ -43,6 +45,14 @@ RUN wget -O /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2 https://bitbucket.org/ariy
   && mv phantomjs-2.1.1-linux-x86_64/bin/phantomjs /bin \
   && chmod +x /bin/phantomjs
 
+# python
+RUN wget https://www.python.org/ftp/python/3.6.0/Python-3.6.0.tgz \
+      && tar zxf Python-3.6.0.tgz \
+      && cd Python-3.6.0 \
+      && ./configure \
+      && make altinstall
+ENV PYTHONIOENCODING "utf-8"
+
 # mecab
 WORKDIR /opt
 RUN git clone https://github.com/taku910/mecab.git
@@ -62,6 +72,11 @@ WORKDIR /opt
 RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git
 WORKDIR /opt/mecab-ipadic-neologd
 RUN ./bin/install-mecab-ipadic-neologd -n -y
+
+WORKDIR /opt
+RUN git clone https://github.com/facebookresearch/fastText.git
+WORKDIR fastText
+RUN pip3.6 install .
 
 RUN mkdir /app
 

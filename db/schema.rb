@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181125110513) do
+ActiveRecord::Schema.define(version: 20181201042812) do
 
   create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC" do |t|
     t.string "name", null: false
@@ -40,12 +40,15 @@ ActiveRecord::Schema.define(version: 20181125110513) do
     t.bigint "user_id"
     t.string "text"
     t.bigint "category_id"
+    t.float "score", limit: 24
+    t.integer "correct"
     t.string "link"
     t.string "urls"
     t.datetime "tweet_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_tweets_on_category_id"
+    t.index ["correct"], name: "index_tweets_on_correct"
     t.index ["tw_tweet_id"], name: "index_tweets_on_tw_tweet_id", unique: true
     t.index ["user_id"], name: "index_tweets_on_user_id"
   end

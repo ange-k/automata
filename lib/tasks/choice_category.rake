@@ -2,24 +2,20 @@ namespace :choice_category do
   desc '記事のカテゴリを推定する'
   task exec: :environment do
     root_dir = Rails.root
-    tw_path = "#{root_dir}/tmp/tweets"
     fasttext = Shellwords.escape("#{root_dir}/script/exec.sh")
 
-    out, err, status = Open3.capture3("#{fasttext} #{Tweet.last.text_only}")
-    p out
-    p err
-    p status
-
-    #FileUtils.mkdir_p(tw_path)
-    #ids = []
-    #File.open("#{tw_path}/twitter.txt", 'w') do |f|
-    #  File.open("#{tw_path}/ids.txt", 'w') do |f_id|
-    #    Tweet.where(category_id: nil).each do |tw|
-#
- #       end
-  #    end
-   # end
-
-
+    categories = Category.all.map do |category|
+      [category.label, category.id]
+    end
+    categories = Hash[categories]
+    Tweet.all.each do |tweet|
+      out, err, status = Open3.capture3("#{fasttext} #{tweet.text_only}")
+      json = JSON.load(out).sort_by{ |_, v| -v }
+      label = json.first.first
+      value = json.first.second
+      tweet.category_id = categories[label]
+      tweet.score = value
+      tweet.save
+    end
   end
 end

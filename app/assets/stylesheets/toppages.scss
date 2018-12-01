@@ -1,3 +1,39 @@
 // Place all the styles related to the TopPage controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#automata {
+  .container {
+    width: 1500px;
+    max-width: 1500px;
+  }
+  .tweets-area {
+    table {
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    .index {
+      width: 50px;
+    }
+    .id {
+      width: 50px;
+    }
+    .popular {
+      width: 100px;
+    }
+    .text {
+      width: 500px;
+    }
+    .created_at {
+      width: 120px;
+    }
+    .urls {
+      width: 200px;
+    }
+    .category {
+      width: 200px;
+    }
+    .word-break {
+      word-break: break-all;
+    }
+  }
+}

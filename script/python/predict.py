@@ -1,4 +1,5 @@
 import sys
+import json
 import fastText as ft
 
 class predict:
@@ -11,11 +12,10 @@ class predict:
     def tweet_class(self, content):
         words = " ".join(content)
         estimate = self.classifier.predict(text=[words], k=7)
-       
-        for i in range(0, len(estimate[0][0])):       
-            print(estimate[0][0][i])
-            print(estimate[1][0][i])
-
+        dict = {}
+        for i in range(0, len(estimate[0][0])):
+            dict[estimate[0][0][i]] = estimate[1][0][i]
+        return json.dumps(dict)
 if __name__ == '__main__':
     pre = predict()
-    pre.tweet_class("".join(sys.argv[2:]))
+    sys.stdout.write(pre.tweet_class("".join(sys.argv[2:])))

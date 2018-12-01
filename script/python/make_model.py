@@ -5,9 +5,9 @@ def main(argv):
     input_file = argv[0]
     output_file = argv[1]
     model = ft.train_supervised(input=input_file, 
-      dim=450,
-      epoch=450,
-      lr=0.3,
+      dim=200,
+      epoch=30,
+      lr=0.1,
       label='__label__', 
       thread=8)
     model.save_model(output_file)

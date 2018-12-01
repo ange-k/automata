@@ -1,4 +1,4 @@
-%tr
+%tr{ id: "tr-#{index}-#{tw.id}"}
   %td
     = index + 1
   %td
@@ -34,3 +34,6 @@
         - else
           = tw.correct.name
   %td
+    = select_tag :tweet_category,
+      options_from_collection_for_select(@categories, :id, :name),
+        multiple: true, onchange: "send_correct_category(this, #{tw.id}, #{index}, '#{toppages_category_url}');"

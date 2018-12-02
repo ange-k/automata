@@ -34,6 +34,10 @@
         - else
           = tw.correct.name
   %td
-    = select_tag :tweet_category,
-      options_from_collection_for_select(@categories, :id, :name),
-        multiple: true, onchange: "send_correct_category(this, #{tw.id}, #{index}, '#{toppages_category_url}');"
+    = form_with url: toppages_category_url, class: 'change_form' do |f|
+      = f.hidden_field :tweet_id, value: tw.id
+      = f.hidden_field :index, value: index
+      = f.select :category_id,
+        options_from_collection_for_select(@categories, :id, :name),
+        multiple: true
+      = f.submit 'change', class: 'button'

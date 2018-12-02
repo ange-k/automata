@@ -1,5 +1,4 @@
 class ToppagesController < ApplicationController
-  protect_from_forgery with: :null_session # todo
   def index
     @tweet = Tweet.includes(:popular).order("populars.popular desc")
     @categories = Category.all
@@ -14,8 +13,9 @@ class ToppagesController < ApplicationController
     tweet = Tweet.find(tweet_id)
     tweet.correct = Category.find(category_id)
     if tweet.save
-      html = render_to_string partial: 'tr', locals: { tw: tweet, index: index }
-      render :json  => {result: 'success', html: html }
+      id = "#tr-#{index}-#{tweet_id}"
+      html = render_to_string partial: 'tr', locals: { tw: tweet, index: index.to_i }
+      render :json  => {result: 'success', html: html, id: id }
     else
       render :json  => {result: 'fail'}
     end

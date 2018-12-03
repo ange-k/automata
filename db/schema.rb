@@ -10,16 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181112151157) do
+ActiveRecord::Schema.define(version: 20181201042812) do
 
-  create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC" do |t|
     t.string "name", null: false
+    t.string "label", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
-  create_table "populars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "populars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC" do |t|
     t.bigint "tweet_id"
     t.bigint "user_id"
     t.integer "retweet_count", null: false
@@ -34,20 +35,25 @@ ActiveRecord::Schema.define(version: 20181112151157) do
     t.index ["user_id"], name: "index_populars_on_user_id"
   end
 
-  create_table "tweets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "tweets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC" do |t|
     t.string "tw_tweet_id", null: false
     t.bigint "user_id"
     t.string "text"
+    t.bigint "category_id"
+    t.float "score", limit: 24
+    t.integer "correct"
     t.string "link"
     t.string "urls"
     t.datetime "tweet_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_tweets_on_category_id"
+    t.index ["correct"], name: "index_tweets_on_correct"
     t.index ["tw_tweet_id"], name: "index_tweets_on_tw_tweet_id", unique: true
     t.index ["user_id"], name: "index_tweets_on_user_id"
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC" do |t|
     t.string "tw_user_id", null: false
     t.string "name"
     t.string "screen_name"
@@ -58,4 +64,5 @@ ActiveRecord::Schema.define(version: 20181112151157) do
     t.index ["tw_user_id"], name: "index_users_on_tw_user_id", unique: true
   end
 
+  add_foreign_key "tweets", "categories"
 end

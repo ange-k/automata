@@ -11,6 +11,8 @@ out/**/*.txt
 /vendor/bundle
 
 /.idea
-
+/out/*.dat
+/script/**/*.bin
+/script/**/*.vec
+/script/**/*.dat
 .DS_Store
-

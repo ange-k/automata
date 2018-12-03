@@ -1,0 +1,43 @@
+%tr{ id: "tr-#{index}-#{tw.id}"}
+  %td
+    = index + 1
+  %td
+    %a{ href: tw.link, target: '_blank' }
+      = tw.id
+  %td
+    = tw.popular.last.popular
+  %td
+    - # 改行コードのスプリット
+    - tw.text.split(/\R/).each do |s|
+      = s
+      %br
+  %td
+    = tw.tweet_at.strftime("%Y-%m-%d %H:%M:%S")
+  %td.word-break
+    %ul
+      - tw.urls.split(',').each do |url|
+        %li
+          %a{ href: url, target: '_blank' }
+            = url
+  %td
+    %ul
+      予想
+      %li
+        = tw.category.name
+      %li
+        = tw.score
+    %ul
+      実際
+      %li
+        - if tw.correct.blank?
+          = '-'
+        - else
+          = tw.correct.name
+  %td
+    = form_with url: toppages_category_url, class: 'change_form' do |f|
+      = f.hidden_field :tweet_id, value: tw.id
+      = f.hidden_field :index, value: index
+      = f.select :category_id,
+        options_from_collection_for_select(@categories, :id, :name),
+        multiple: true
+      = f.submit 'change', class: 'button'

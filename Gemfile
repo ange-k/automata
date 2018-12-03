@@ -32,6 +32,7 @@ gem 'nokogiri'
 gem 'poltergeist'
 gem 'capybara'
 gem 'natto'
+gem 'seed-fu'
 
 group :development, :test do
   gem 'pry-rails'

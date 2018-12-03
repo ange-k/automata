@@ -35,4 +35,13 @@ namespace :import_news do
 
     exec_task targets, root_dir
   end
+
+  task exec_gigazine: :environment do
+    require 'capybara/poltergeist'
+    root_dir = "#{Rails.root}/out"
+    targets = [
+        ScrapingerFactory::CATEGORY_NET_NEWS_GIGAZINE
+    ]
+    exec_task targets, root_dir
+  end
 end

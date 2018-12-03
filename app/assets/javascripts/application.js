@@ -16,3 +16,15 @@
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
+
+$(document).on('click', '.change_form', function(){
+    $('.change_form').on('ajax:complete', function(event) {
+        var response;
+        response = event.detail[0].response;
+        response = JSON.parse(response)
+        var id = response.id
+        var html = response.html
+        $(id).replaceWith(html);
+    });
+
+});

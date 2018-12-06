@@ -5,4 +5,4 @@
     = render 'header'
     %tbody
       - @tweet.each_with_index do |tw, index|
-        = render partial: 'tr', locals: {tw: tw, index: index}
+        = render partial: 'tr', locals: { tw: tw, index: index }

@@ -1,7 +1,13 @@
 class ToppagesController < ApplicationController
   def index
-    @tweet = Tweet.includes(:popular).order("populars.popular desc")
+    @tweet = Tweet.eager_load(:popular).order("tweets.tweet_at desc, populars.popular desc")
     @categories = Category.all
+  end
+
+  def select
+    @tweet = Tweet.eager_load(:popular).where("tweets.correct is null").order("populars.popular desc")
+    @categories = Category.all
+    render 'index'
   end
 
   def category

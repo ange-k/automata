@@ -11,5 +11,13 @@
       %a.navbar-brand
         %h2
           Automata
+      .justify-content-end
+        %ul.navbar-nav
+          %li
+            %a{ href: root_path}
+              HOME
+          %li
+            %a{ href: toppages_select_path }
+              Selected
     %main
       = yield

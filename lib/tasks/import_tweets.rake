@@ -36,7 +36,7 @@ namespace :import_tweets do
         tweet_at: tweet.created_at - 17.hour,
         link: "https://twitter.com/#{user.screen_name}/status/#{tw.tw_tweet_id}"
       )
-      tw.save
+      logger.error tw.errors.inspect unless tw.save
 
       popular = Popular.find_or_create_by(
         retweet_count: tweet.retweet_count,

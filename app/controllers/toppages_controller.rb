@@ -1,6 +1,7 @@
 class ToppagesController < ApplicationController
   def index
-    @tweet = Tweet.eager_load(:popular).order("tweets.tweet_at desc, populars.popular desc")
+    @tweet = Tweet.eager_load(:popular).where(tweet_at: 1.week.ago..Time.zone.now).order(
+        "DATE_FORMAT(tweets.tweet_at, '%Y%m%d%H') desc, populars.popular desc")
     @categories = Category.all
   end
 

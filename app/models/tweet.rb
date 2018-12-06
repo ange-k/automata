@@ -1,8 +1,8 @@
 class Tweet < ApplicationRecord
   has_many   :popular
   belongs_to :user
-  belongs_to :category
-  belongs_to :correct, class_name: 'Category', foreign_key: 'correct'
+  belongs_to :category, optional: true
+  belongs_to :correct, class_name: 'Category', foreign_key: 'correct', optional: true
 
   def text_only
     text_str = self.text

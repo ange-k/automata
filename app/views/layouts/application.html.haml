@@ -7,9 +7,20 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body.container
-    %nav.navbar.navbar-light.bg-light.navbar-dark.bg-primary
+    %nav.navbar.navbar-expand-lg.navbar-light.bg-light
       %a.navbar-brand
         %h2
           Automata
+      %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarSupportedContent", "data-toggle" => "collapse", :type => "button"}
+        %span.navbar-toggler-icon
+
+      .collapse.navbar-collapse#navbarSupportedContent
+        %ul.navbar-nav.mr-auto
+          %li.nav-item
+            %a.nav-link{ href: root_path}
+              HOME
+          %li.nav-item
+            %a.nav-link{ href: toppages_select_path }
+              Selected
     %main
       = yield

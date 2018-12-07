@@ -23,7 +23,10 @@
     %ul
       予想
       %li
-        = tw.category.name
+        - if tw.category.blank?
+          = '-'
+        - else
+          = tw.category.name
       %li
         = tw.score
     %ul

@@ -15,8 +15,11 @@ gem 'erb2haml'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 
-# user関連処理
-# gem 'devise'
+# user/oauth関連処理
+gem 'devise'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+
 # gem 'cancancan'
 # gem 'rails_admin'
 
@@ -45,6 +48,8 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

@@ -39,7 +39,7 @@
   %td
     = form_with url: toppages_category_url, class: 'change_form' do |f|
       = f.hidden_field :tweet_id, value: tw.id
-      = f.hidden_field :index, value: index
+      = f.hidden_field :login, value: index
       = f.select :category_id,
         options_from_collection_for_select(@categories, :id, :name),
         multiple: true

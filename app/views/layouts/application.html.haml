@@ -22,5 +22,9 @@
           %li.nav-item
             %a.nav-link{ href: toppages_select_path }
               Selected
+          - if social_account_signed_in?
+            = link_to 'Logout', destroy_social_account_session_path, method: :delete, class: 'nav-link'
+          - else
+            = link_to 'Login', new_social_account_session_path, class: 'nav-link'
     %main
       = yield

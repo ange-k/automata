@@ -22,10 +22,10 @@ class ToppagesController < ApplicationController
     tweet.correct = Category.find(category_id)
     if tweet.save
       id = "#tr-#{index}-#{tweet_id}"
-      html = render_to_string partial: 'tr', locals: {tw: tweet, login: index.to_i }
-      render :json  => {result: 'success', html: html, id: id }
+      html = render_to_string partial: 'tr', locals: { tw: tweet, index: index.to_i }
+      render :json  => { result: 'success', html: html, id: id }
     else
-      render :json  => {result: 'fail'}
+      render :json  => { result: 'fail' }
     end
   end
 end

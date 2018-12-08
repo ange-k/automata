@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181201042812) do
+ActiveRecord::Schema.define(version: 20181207133620) do
 
   create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC" do |t|
     t.string "name", null: false
@@ -33,6 +33,23 @@ ActiveRecord::Schema.define(version: 20181201042812) do
     t.index ["category_id"], name: "index_populars_on_category_id"
     t.index ["tweet_id"], name: "index_populars_on_tweet_id"
     t.index ["user_id"], name: "index_populars_on_user_id"
+  end
+
+  create_table "social_accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC" do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.string "provider"
+    t.string "uid"
+    t.string "name"
+    t.string "token"
+    t.index ["email"], name: "index_social_accounts_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_social_accounts_on_reset_password_token", unique: true
   end
 
   create_table "tweets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC" do |t|

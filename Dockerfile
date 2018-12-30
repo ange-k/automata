@@ -79,13 +79,15 @@ WORKDIR fastText
 RUN pip3.6 install .
 
 RUN mkdir /app
+RUN pip3.6 install awscli
 
 WORKDIR /app
 
 RUN bundle config build.nokogiri --use-system-libraries
 
 ADD . /app
+ADD ./bin/export.sh /opt
 
 ENTRYPOINT [ \
   "prehook", "ruby -v", "--", \
-  "prehook", "bundle install -j3 --quiet", "--"]
+  "prehook", "bundle install -j3", "--"]

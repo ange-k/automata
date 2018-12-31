@@ -23,6 +23,5 @@ RUN bundle config build.nokogiri --use-system-libraries
 ADD . /app
 ADD ./bin/export.sh /opt
 
-ENTRYPOINT [ \
-  "prehook", "ruby -v", "--", \
-  "prehook", "bundle install -j3", "--"]
+RUN bundle install -j3
+ADD /usr/local/bundle /usr/local/bundle

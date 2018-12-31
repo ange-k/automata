@@ -24,4 +24,6 @@ ADD . /app
 ADD ./bin/export.sh /opt
 
 RUN bundle install -j3
-ADD /usr/local/bundle /usr/local/bundle
+RUN mkdir -p /usr/local/bundle
+WORKDIR /usr/local/bundle
+ADD . /usr/local/bundle

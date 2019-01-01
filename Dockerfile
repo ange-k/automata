@@ -5,4 +5,7 @@ WORKDIR /app
 RUN bundle config build.nokogiri --use-system-libraries
 ADD . /app
 RUN bundle install -j3 --path vendor/bundle
-ADD ./bin/export.sh /opt
+ADD ./bin/start.sh /opt
+RUN chmod +x /opt/start.sh
+
+CMD ["/opt/start.sh"]

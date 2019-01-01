@@ -16,14 +16,11 @@ ENV ENTRYKIT_VERSION 0.4.0
 
 ENV PYTHONIOENCODING "utf-8"
 
+ADD /usr/local/bin/ /usr/local/bin
+
 WORKDIR /app
 
 RUN bundle config build.nokogiri --use-system-libraries
-
 ADD . /app
+RUN bundle install -j3 --path vendor/bundle
 ADD ./bin/export.sh /opt
-
-RUN bundle install -j3
-RUN mkdir -p /usr/local/bundle
-WORKDIR /usr/local/bundle
-ADD . /usr/local/bundle

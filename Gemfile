@@ -52,4 +52,4 @@ group :development do
   gem 'binding_of_caller'
 end
 
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data'

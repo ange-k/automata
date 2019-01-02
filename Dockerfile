@@ -8,4 +8,4 @@ RUN bundle install -j3 --path vendor/bundle
 ADD ./bin/start.sh /opt
 RUN chmod +x /opt/start.sh
 
-CMD ["/opt/start.sh"]
+ENTRYPOINT ["/opt/start.sh"]

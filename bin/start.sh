@@ -1,3 +1,4 @@
+#!/bin/bash
 export RAILS_ENV=production
 export ACCESS_TOKEN=$(aws ssm get-parameters --region ap-northeast-1 --name chalkboard-twitter-access-token --query "Parameters[0].Value" --with-decryption --output text)
 export ACCESS_TOKEN_SECRET=$(aws ssm get-parameters --region ap-northeast-1 --name chalkboard-twitter-access-token-secret --query "Parameters[0].Value" --with-decryption --output text)

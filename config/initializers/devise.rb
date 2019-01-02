@@ -14,6 +14,7 @@ Devise.setup do |config|
   config.reset_password_within = 6.hours
   config.sign_out_via = :delete
   config.scoped_views = true
+  config.secret_key = Rails.application.secrets.secret_key_base
 
   config.omniauth :google_oauth2, Rails.application.secrets.google_client_id, Rails.application.secrets.google_client_secret
 end

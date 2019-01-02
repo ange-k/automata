@@ -11,6 +11,7 @@ export GOOGLE_CLIENT_ID=$(aws ssm get-parameters --region ap-northeast-1 --name 
 export GOOGLE_CLIENT_SECRET=$(aws ssm get-parameters --region ap-northeast-1 --name chalkboard-google-secret --query "Parameters[0].Value" --with-decryption --output text)
 export SECRET_KEY_BASE=$(aws ssm get-parameters --region ap-northeast-1 --name chalkboard-automata-secret-key --query "Parameters[0].Value" --with-decryption --output text)
 
+bundle exec rake db:migrate
 bundle exec rake assets:clobber
 bundle exec rake assets:precompile
 bundle exec rails s -p 3000 -b 0.0.0.0

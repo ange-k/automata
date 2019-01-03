@@ -21,5 +21,7 @@ class Tweet < ApplicationRecord
     # 空白削除
     text_str.gsub!(/[\r\n]/, '')
     text_str.strip
+
+    Shellwords.escape(text_str)
   end
 end

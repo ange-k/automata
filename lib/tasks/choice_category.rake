@@ -8,7 +8,7 @@ namespace :choice_category do
       [category.label, category.id]
     end
     categories = Hash[categories]
-    Tweet.all.each do |tweet|
+    Tweet.where(category_id: nil).each do |tweet|
       out, err, status = Open3.capture3("#{fasttext} #{tweet.text_only}")
       json = JSON.load(out).sort_by{ |_, v| -v }
       label = json.first.first

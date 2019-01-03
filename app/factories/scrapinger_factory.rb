@@ -16,8 +16,7 @@ class ScrapingerFactory
         CATEGORY_ECO_NEWS,
         CATEGORY_ENT_NEWS,
         CATEGORY_SPORTS_NEWS,
-        CATEGORY_NET_NEWS,
-        CATEGORY_NET_NEWS_GIGAZINE
+        CATEGORY_NET_NEWS
     ]
   end
 

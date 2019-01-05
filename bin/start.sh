@@ -19,3 +19,4 @@ bundle exec rake assets:precompile
 bundle exec rails s -p 3000 -b 0.0.0.0
 
 bundle exec whenever --update-crontab
+service cron restart

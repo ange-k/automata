@@ -16,7 +16,7 @@ aws s3 cp s3://news-bin/model.bin /app/script/python
 bundle exec rake db:migrate
 bundle exec rake assets:clobber
 bundle exec rake assets:precompile
-bundle exec rails s -p 3000 -b 0.0.0.0
-
 bundle exec whenever --update-crontab
 service cron restart
+# ここで停止する
+bundle exec rails s -p 3000 -b 0.0.0.0

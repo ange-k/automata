@@ -1,24 +1,17 @@
 set :output, "/app/log/cron.log"
 set :whenever_command, "bundle exec whenever"
+# cronを実行する環境変数
+rails_env = ENV['RAILS_ENV'] || :development
+# # cronを実行する環境変数をセット
+ENV.each { |k, v| env(k, v) }
+set :environment, rails_env
 # UTCです。(- 9:00)
-# 7:00, 16:00, 23:00
-every '0 22 * * *' do
-  rake "import_tweets:exec"
-end
-every '0 7 * * *' do
-  rake "import_tweets:exec"
-end
-every '0 14 * * *' do
+# 7:00, 10:00, 16:00, 22:00
+every '0 7,10,14,21 * * *' do
   rake "import_tweets:exec"
 end
 
-# 7:30, 16:30, 23:30
-every '30 22 * * *' do
-  rake "choice_category:exec"
-end
-every '30 7 * * *' do
-  rake "choice_category:exec"
-end
-every '30 14 * * *' do
+# 7:30, 10:30, 16:30, 22:30
+every '30 7,10,14,21 * * *' do
   rake "choice_category:exec"
 end
